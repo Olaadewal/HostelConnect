@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>HostelConnect • Landlord/Agent Listing</title>
+<style>
+  :root{--brand:#0b79d0;--bg:#f7f8fb;--card:#fff;--text:#1b1f24;--muted:#6b7280;--ring:#e5e7eb}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu}
+  header{padding:24px 16px;text-align:center}
+  h1{margin:0 0 6px;font-size:1.6rem}
+  p.lead{margin:0;color:var(--muted)}
+  .wrap{max-width:700px;margin:18px auto;padding:0 16px}
+  .card{background:var(--card);border:1px solid var(--ring);border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .card .inner{padding:16px}
+  .field{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+  .row{display:grid;gap:10px}
+  @media (min-width:640px){.row.cols-2{grid-template-columns:1fr 1fr}}
+  label{font-weight:600}
+  input,select,textarea{border:1px solid var(--ring);border-radius:10px;padding:10px 12px;background:#fff}
+  textarea{min-height:90px;resize:vertical}
+  .checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+  .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ring);border-radius:999px;padding:8px 12px;background:#fff}
+  .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .thumbs img{width:62px;height:62px;object-fit:cover;border-radius:8px;border:1px solid var(--ring)}
+  .btn-primary{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;font-weight:600;background:var(--brand);color:#fff}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+  <header>
+    <h1>List Your Hostel / Apartment</h1>
+    <p class="lead">Choose your role and fill in the details below.</p>
+  </header>
+
+  <div class="wrap">
+    <!-- FORM -->
+    <section class="card">
+      <div class="inner">
+        <form id="listForm" autocomplete="on">
+          
+          <!-- Role Selector -->
+          <div class="field">
+            <label for="role">I am a:</label>
+            <select id="role" required>
+              <option value="">Select role…</option>
+              <option value="landlord">Landlord</option>
+              <option value="agent">Agent</option>
+            </select>
+          </div>
+
+          <!-- Agent Only Section -->
+          <div id="agentFields" class="hidden">
+            <div class="field">
+              <label for="agencyName">Agency Name</label>
+              <input id="agencyName" placeholder="e.g., Swift Homes Agency" />
+            </div>
+            <div class="field">
+              <label for="agentFee">Agent Fee (₦)</label>
+              <input id="agentFee" type="number" min="0" placeholder="e.g., 5000" />
+            </div>
+            <div class="field">
+              <label for="agentContact">Contact Number</label>
+              <input id="agentContact" type="tel" placeholder="e.g., 08012345678" />
+            </div>
+          </div>
+
+          <!-- Shared Fields -->
+          <div class="row cols-2">
+            <div class="field">
+              <label for="title">Property Title</label>
+              <input id="title" placeholder="e.g., 2-Bedroom Ensuite by South Gate" required />
+            </div>
+            <div class="field">
+              <label for="roomType">Room / Unit Type</label>
+              <select id="roomType" required>
+                <option value="">Select type…</option>
+                <option>Self-contain</option>
+                <option>Single room</option>
+                <option>2-bedroom</option>
+                <option>Shared room</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row cols-2">
+            <div class="field">
+              <label for="city">City</label>
+              <select id="city" required>
+                <option value="">Choose…</option>
+                <option>Ibadan</option>
+                <option>Lagos</option>
+                <option>Akure</option>
+                <option>Ile-Ife</option>
+                <option>Osogbo</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="area">Suburb / Area</label>
+              <input id="area" placeholder="e.g., Bodija" required />
+            </div>
+          </div>
+
+          <div class="row cols-2">
+            <div class="field">
+              <label for="price">Price (₦)</label>
+              <input id="price" type="number" min="0" placeholder="e.g., 20000" required />
+            </div>
+            <div class="field">
+              <label for="period">Billing Period</label>
+              <select id="period">
+                <option>per month</option>
+                <option>per semester</option>
+                <option>per year</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Facilities</label>
+            <div class="checklist">
+              <label class="chip"><input type="checkbox" value="Ensuite bathroom"> Ensuite bathroom</label>
+              <label class="chip"><input type="checkbox" value="Shared kitchen"> Shared kitchen</label>
+              <label class="chip"><input type="checkbox" value="Wi-Fi"> Wi-Fi</label>
+              <label class="chip"><input type="checkbox" value="Power backup"> Power backup</label>
+              <label class="chip"><input type="checkbox" value="Furnished"> Furnished</label>
+              <label class="chip"><input type="checkbox" value="Water supply"> Water supply</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="desc">Short Description</label>
+            <textarea id="desc" placeholder="Brief details, rules, key highlights…"></textarea>
+          </div>
+
+                <div class="field">
+        <label>Upload Photos</label>
+        <div id="photoUploads">
+            <!-- Room uploads will be generated dynamically -->
+             <div class="sub-field">
+            <label>Room</label>
+            <input type="file" id="Room" accept="image/*">
+            <div id="troom" class="thumbs"></div>
+            </div>
+            <div class="sub-field">
+            <label>Kitchen</label>
+            <input type="file" id="photoKitchen" accept="image/*">
+            <div id="thumbKitchen" class="thumbs"></div>
+            </div>
+            <div class="sub-field">
+            <label>Bathroom</label>
+            <input type="file" id="photoBathroom" accept="image/*">
+            <div id="thumbBathroom" class="thumbs"></div>
+            </div>
+            <div class="sub-field">
+            <label>Outside / Compound</label>
+            <input type="file" id="photoOutside" accept="image/*">
+            <div id="thumbOutside" class="thumbs"></div>
+            </div>
+        </div>
+        </div>
+
+
+          <button type="submit" class="btn-primary">Submit Listing</button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const form = $('listForm');
+  const roleSelect = $('role');
+  const agentFields = $('agentFields');
+  const roomTypeSelect = $('roomType');
+  const photoUploadsDiv = $('photoUploads');
+
+  roleSelect.addEventListener('change', e => {
+    agentFields.classList.toggle('hidden', e.target.value !== 'agent');
+  });
+
+  function renderThumbFile(file, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    if (!file) return;
+    const img = document.createElement('img');
+    img.style.width = '70px';
+    img.style.height = '70px';
+    img.style.objectFit = 'cover';
+    const reader = new FileReader();
+    reader.onload = e => img.src = e.target.result;
+    reader.readAsDataURL(file);
+    container.appendChild(img);
+  }
+
+  function createRoomField(index, numberLabel) {
+    const labelText = numberLabel ? `Room ${index}` : 'Room';
+    const inputId = numberLabel ? `photoRoom${index}` : 'photoRoom';
+    const thumbId = numberLabel ? `thumbRoom${index}` : 'thumbRoom';
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'sub-field room-upload';
+    wrapper.innerHTML = `
+      <label>${labelText}</label>
+      <input type="file" id="${inputId}" accept="image/*" required />
+      <div id="${thumbId}" class="thumbs"></div>
+    `;
+    photoUploadsDiv.appendChild(wrapper);
+  }
+
+  function createStaticField(labelText, inputId, thumbId) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'sub-field';
+    wrapper.innerHTML = `
+      <label>${labelText}</label>
+      <input type="file" id="${inputId}" accept="image/*" required />
+      <div id="${thumbId}" class="thumbs"></div>
+    `;
+    photoUploadsDiv.appendChild(wrapper);
+  }
+
+  function attachPreviewHandlers() {
+    const inputs = photoUploadsDiv.querySelectorAll('input[type="file"]');
+    inputs.forEach(inp => {
+      inp.onchange = () => {
+        const id = inp.id;
+        let thumbId;
+        if (id.startsWith('photoRoom')) thumbId = id.replace('photo', 'thumb');
+        else if (id === 'photoRoom') thumbId = 'thumbRoom';
+        else if (id === 'photoKitchen') thumbId = 'thumbKitchen';
+        else if (id === 'photoBathroom') thumbId = 'thumbBathroom';
+        else if (id === 'photoOutside') thumbId = 'thumbOutside';
+        else thumbId = id + '_thumb';
+        renderThumbFile(inp.files[0], thumbId);
+      };
+    });
+  }
+
+  function buildPhotoFields() {
+    photoUploadsDiv.innerHTML = '';
+
+    const isTwoBedroom = /\b2[- ]?bed/i.test(roomTypeSelect.value);
+
+    if (isTwoBedroom) {
+      createRoomField(1, true);
+      createRoomField(2, true);
+    } else {
+      createRoomField(1, false);
+    }
+
+    createStaticField('Kitchen', 'photoKitchen', 'thumbKitchen');
+    createStaticField('Bathroom', 'photoBathroom', 'thumbBathroom');
+    createStaticField('Outside / Compound', 'photoOutside', 'thumbOutside');
+
+    attachPreviewHandlers();
+  }
+
+  document.addEventListener('DOMContentLoaded', buildPhotoFields);
+  roomTypeSelect.addEventListener('change', buildPhotoFields);
+
+  form.addEventListener('submit', e => {
+    // Browser will automatically block submission if required inputs are empty
+    e.preventDefault();
+
+    if (!form.checkValidity()) {
+      alert('Please upload all required photos.');
+      return;
+    }
+
+    const files = Array.from(photoUploadsDiv.querySelectorAll('input[type="file"]'))
+      .map(inp => inp.files[0]?.name || null)
+      .filter(Boolean);
+
+    const data = {
+      role: roleSelect.value,
+      ...(roleSelect.value === 'agent' ? {
+        agencyName: $('agencyName')?.value?.trim() || '',
+        agentFee: Number($('agentFee')?.value || 0),
+        agentContact: $('agentContact')?.value?.trim() || ''
+      } : {}),
+      title: $('title').value.trim(),
+      roomType: $('roomType').value,
+      city: $('city').value,
+      area: $('area').value.trim(),
+      price: Number($('price').value || 0),
+      period: $('period').value,
+      facilities: [...document.querySelectorAll('.checklist input:checked')].map(c => c.value),
+      description: $('desc').value.trim(),
+      photos: files
+    };
+
+    console.log('Submitted Listing:', data);
+    alert('Listing submitted! (see console for data)');
+
+    form.reset();
+    setTimeout(() => {
+      buildPhotoFields();
+      document.querySelectorAll('.thumbs').forEach(t => t.innerHTML = '');
+      agentFields.classList.add('hidden');
+    }, 0);
+  });
+})();
+</script>
+</body>
+</html>
