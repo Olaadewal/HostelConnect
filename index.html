@@ -1,285 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HostelConnect</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<style>
-/* GENERAL RESET */
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Poppins',sans-serif;line-height:1.6;background:#f9f9f9;color:#333;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HostelConnect</title>
+  <style>
+    :root {
+      --brand: #008CBA;
+      --accent: #e67e22;
+      --bg: #f7f8fb;
+      --ring: #e5e7eb;
+      --muted: #6b7280;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background: var(--bg); color: #333; line-height: 1.6; }
 
-/* HEADER */
-header{display:flex;justify-content:space-between;align-items:center;background:#fff;padding:15px 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 6px rgba(0,0,0,0.05);}
-header .logo{display:flex;align-items:center;gap:10px;}
-header .logo img{height:60px;}
-header .logo span{font-size:1.5rem;font-weight:bold;color:#333;}
-header nav ul{display:flex;list-style:none;}
-header nav ul li{margin:0 10px;}
-header nav ul li a{text-decoration:none;color:#333;font-weight:600;transition:color 0.3s;}
-header nav ul li a:hover{color:#e67e22;}
-.menu-toggle{display:none;cursor:pointer;font-size:1.5rem;}
+    /* HEADER */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      background: white; padding: 15px 20px; position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid var(--ring);
+    }
+    header .logo { display: flex; align-items: center; gap: 10px; }
+    header .logo img { height: 50px; }
+    header .logo span { font-size: 1.5rem; font-weight: bold; color: #333; }
+    nav ul { display: flex; list-style: none; }
+    nav ul li { margin: 0 10px; }
+    nav ul li a {
+      text-decoration: none; color: #333; font-weight: 600; transition: color 0.3s;
+    }
+    nav ul li a:hover { color: var(--accent); }
+    .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
 
-/* HERO / SEARCH */
-.home{text-align:center;padding:80px 20px;background:#008CBA;color:white;}
-.home h1{font-size:2.5rem;margin-bottom:20px;}
-.search-bar{margin:20px auto;display:flex;justify-content:center;flex-wrap:wrap;gap:10px;}
-.search-bar input{padding:12px;font-size:1rem;border:none;border-radius:5px;width:250px;max-width:100%;}
-.search-bar button{padding:12px 20px;font-size:1rem;border:none;border-radius:5px;background:#e67e22;color:white;cursor:pointer;transition:background 0.3s;}
-.search-bar button:hover{background:#d35400;}
-.quick-links{margin-top:20px;}
-.quick-links a{text-decoration:none;margin:0 10px;color:white;font-weight:600;background:rgba(255,255,255,0.2);padding:6px 12px;border-radius:5px;transition:background 0.3s;}
-.quick-links a:hover{background:white;color:#008CBA;}
+    /* HERO */
+    .home {
+      text-align: center; padding: 60px 20px; background: var(--brand); color: white;
+    }
+    .home h1 { font-size: 2.2rem; margin-bottom: 20px; }
+    .search-bar {
+      display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+    }
+    .search-bar input {
+      padding: 10px; border-radius: 6px; border: none; width: 250px;
+    }
+    .search-bar button {
+      padding: 10px 20px; border: none; border-radius: 6px;
+      background: var(--accent); color: white; cursor: pointer; font-weight: bold;
+    }
+    .search-bar button:hover { background: #d35400; }
 
-/* FILTERS */
-.filters-section{padding:20px;background:#f4f4f4;text-align:center;}
-.filters{display:inline-flex;gap:15px;flex-wrap:wrap;justify-content:center;}
-.filters label{font-weight:bold;}
-.filters select{padding:8px;border-radius:5px;border:1px solid #ccc;}
+    /* LISTINGS */
+    .wrap { max-width: 1100px; margin: 40px auto; padding: 0 14px; }
+    .controls {
+      display: grid; gap: 10px; background: #fff; border: 1px solid var(--ring);
+      border-radius: 14px; padding: 12px; margin-bottom: 20px;
+    }
+    @media (min-width: 860px) {
+      .controls { grid-template-columns: repeat(6,1fr); }
+    }
+    select, input {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--ring);
+      border-radius: 10px; background: #fff;
+    }
+    .grid {
+      display: grid; gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+    }
+    .card {
+      background: #fff; border: 1px solid var(--ring); border-radius: 12px; overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+    .card:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+    .cover {
+      height: 160px; background: #eef2f7; display: flex;
+      align-items: center; justify-content: center; overflow: hidden;
+    }
+    .cover img { width: 100%; height: 100%; object-fit: cover; }
+    .body { padding: 12px; }
+    .price { font-weight: 800; margin-bottom: 4px; }
+    .title { font-weight: 700; margin: 4px 0; }
+    .muted { color: var(--muted); font-size: .9rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      font-size: .8rem; border: 1px solid var(--ring); padding: 4px 8px; border-radius: 999px;
+    }
+    .actions { display: flex; gap: 8px; margin-top: 10px; }
+    .btn {
+      background: var(--brand); color: white; padding: 8px 12px;
+      border-radius: 8px; text-decoration: none; font-size: .9rem; flex: 1; text-align: center;
+    }
+    .ghost {
+      background: #eef6fd; color: #0b68b1; padding: 8px 12px;
+      border-radius: 8px; text-decoration: none; font-size: .9rem; flex: 1; text-align: center;
+    }
 
-/* PROPERTY LISTINGS */
-.properties{padding:40px 20px;}
-.properties h2{text-align:center;margin-bottom:30px;font-size:2rem;}
-.property-card{display:flex;flex-direction:row;background:white;border:1px solid #ddd;border-radius:8px;margin-bottom:25px;overflow:hidden;transition:box-shadow 0.3s;}
-.property-card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.15);}
-.property-image{position:relative;flex:1;max-width:300px;}
-.property-image img{width:100%;height:100%;object-fit:cover;}
-.listing-badge{position:absolute;top:10px;left:10px;background:#e67e22;color:white;font-size:0.9rem;padding:5px 10px;border-radius:5px;font-weight:bold;}
-.property-details{flex:2;padding:15px 20px;}
-.property-details h3{margin-bottom:8px;font-size:1.3rem;color:#333;}
-.property-details h3 a{text-decoration:none;color:#333;}
-.property-details h3 a:hover{text-decoration:underline;}
-.property-details .location{font-size:0.95rem;color:#555;margin-bottom:10px;}
-.property-details .description{font-size:1rem;color:#444;margin-bottom:12px;}
-.property-details .price{font-size:1.2rem;font-weight:bold;color:#e67e22;margin-bottom:15px;}
-.whatsapp-btn{display:inline-block;margin-top:10px;padding:10px 15px;background:#25D366;color:white;font-weight:bold;text-decoration:none;border-radius:5px;transition:background 0.3s;}
-.whatsapp-btn:hover{background:#1ebe5d;}
+    /* PAGINATION */
+    .pagination {
+      display: flex; justify-content: center; align-items: center;
+      gap: 12px; margin: 30px auto; font-weight: 600;
+    }
+    .pagination button {
+      cursor: pointer; padding: 8px 14px; border-radius: 8px; border: none;
+      background: #eef6fd; color: #0b68b1; font-size: 0.95rem;
+    }
+    .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* PAGINATION */
-.pagination{display:flex;justify-content:center;gap:10px;margin-top:20px;}
-.pagination button{padding:8px 12px;border:none;border-radius:5px;background:#008CBA;color:white;cursor:pointer;transition:background 0.3s;}
-.pagination button:hover{background:#005f73;}
-.pagination button:disabled{background:#ccc;cursor:not-allowed;}
+    /* ABOUT */
+    .about {
+      padding: 40px 20px; text-align: center; background: #f4f4f4;
+    }
+    .about h2 { font-size: 2rem; margin-bottom: 15px; }
+    .about p { max-width: 600px; margin: auto; font-size: 1.1rem; }
 
-/* ABOUT US */
-.about{padding:40px 20px;text-align:center;background:#f4f4f4;}
-.about h2{margin-bottom:15px;font-size:2rem;}
-.about p{font-size:1.1rem;max-width:700px;margin:0 auto;}
-
-/* OPTIONS */
-.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;padding:40px 20px;background:#fff;text-align:center;}
-.option-card{background:#f9f9f9;padding:20px;border-radius:8px;border:1px solid #ddd;transition:box-shadow 0.3s ease;}
-.option-card:hover{box-shadow:0 4px 8px rgba(0,0,0,0.2);}
-.option-card h3{margin-bottom:15px;font-size:1.3rem;}
-.option-card p{margin-bottom:15px;font-size:1rem;color:#555;}
-.option-card .btn{display:inline-block;padding:10px 15px;background:#008CBA;color:white;text-decoration:none;border-radius:5px;transition:background 0.3s;}
-.option-card .btn:hover{background:#005f73;}
-
-/* CONTACT */
-.contact{padding:40px 20px;background:#008CBA;color:white;text-align:center;}
-.contact h2{margin-bottom:20px;font-size:2rem;}
-.contact p{margin-bottom:15px;font-size:1.1rem;}
-
-/* FOOTER */
-footer{padding:15px 20px;text-align:center;background:#333;color:white;}
-
-/* RESPONSIVE */
-@media screen and (max-width:768px){
-  header nav ul{display:none;flex-direction:column;background:rgb(200,215,234);padding:15px;position:absolute;top:60px;right:20px;width:200px;box-shadow:0 4px 8px rgba(0,0,0,0.2);}
-  header nav ul.show{display:flex;}
-  .menu-toggle{display:block;}
-  .property-card{flex-direction:column;}
-  .property-image{max-width:100%;}
+    /* OPTIONS */
+    .options {
+      display: grid; gap: 20px; padding: 40px 20px; text-align: center;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .option {
+      background: white; border: 1px solid var(--ring); border-radius: 10px;
+      padding: 20px; transition: box-shadow 0.3s;
+    }
+    .option:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+    .option h3 { margin-bottom: 10px; }
+    .option .btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background:#008CBA;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
 }
-@media screen and (max-width:480px){
-  .home h1{font-size:1.5rem;}
-  .filters label, .filters select{width:100%;margin-bottom:10px;}
+
+.option .btn:hover {
+  background: #095a9e;
 }
-</style>
+
+    /* CONTACT */
+    .contact {
+      padding: 40px 20px; background: var(--brand); color: white; text-align: center;
+    }
+    .contact h2 { font-size: 2rem; margin-bottom: 20px; }
+    .contact a {
+      display: inline-block; margin-top: 10px; padding: 12px 20px;
+      background: var(--accent); color: white; border-radius: 8px; text-decoration: none;
+    }
+
+    /* FOOTER */
+    footer { padding: 15px; text-align: center; background: #6d6464; color: white; font-size: .9rem; }
+
+    /* RESPONSIVE NAV */
+    @media (max-width: 768px) {
+      nav ul { display: none; flex-direction: column; position: absolute; top: 60px; right: 20px; background: white; border: 1px solid var(--ring); padding: 10px; }
+      nav ul.show { display: flex; }
+      .menu-toggle { display: block; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">
-    <img src="logo.png" alt="HostelConnect Logo">
-    <span>HostelConnect</span>
-  </div>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#listings">Hostels</a></li>
-      <li><a href="#about">About Us</a></li>
-      <li><a href="#options">Options</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="menu-toggle">☰</div>
-  </nav>
-</header>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="HostelConnect Logo">
+      <span>HostelConnect</span>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#listings">Hostels</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#options">Options</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="menu-toggle">☰</div>
+    </nav>
+  </header>
 
-<!-- HERO -->
-<section id="home" class="home">
-  <h1>Discover Your Ideal Student Accommodation</h1>
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Enter location...">
-    <button onclick="applyFilters()">Search</button>
-  </div>
-  <div class="quick-links">
-    <a href="#listings">Top Rated</a>
-    <a href="#listings">Newly Listed</a>
-  </div>
-</section>
+  <!-- HERO -->
+  <section id="home" class="home">
+    <h1>Discover Your Ideal Student Accommodation</h1>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Enter location...">
+      <button onclick="apply()">Search</button>
+    </div>
+  </section>
 
-<!-- FILTERS -->
-<section class="filters-section">
-  <div class="filters">
-    <label for="location-filter">Location:</label>
-    <select id="locationFilter" onchange="applyFilters()">
-      <option value="all">All</option>
-      <option value="city">City</option>
-      <option value="suburb">Suburb</option>
-    </select>
-    <label for="price-filter">Price:</label>
-    <select id="priceFilter" onchange="applyFilters()">
-      <option value="low-high">Low to High</option>
-      <option value="high-low">High to Low</option>
-    </select>
-  </div>
-</section>
+  <!-- LISTINGS -->
+  <section id="listings" class="wrap">
+    <div class="controls">
+      <select id="city"><option value="">All Cities</option></select>
+      <input id="area" placeholder="Suburb / Area" />
+      <input id="minp" type="number" min="0" placeholder="Min ₦" />
+      <input id="maxp" type="number" min="0" placeholder="Max ₦" />
+      <select id="type">
+        <option value="">Any Type</option>
+        <option>Self-contain</option>
+        <option>Single room</option>
+        <option>2-bedroom</option>
+        <option>Shared room</option>
+      </select>
+      <select id="sort">
+        <option value="asc">Price ↑</option>
+        <option value="desc">Price ↓</option>
+      </select>
+    </div>
+    <div id="grid" class="grid"></div>
+    <!-- FIXED PAGINATION OUTSIDE GRID -->
+    <div id="pagination" class="pagination"></div>
+  </section>
 
-<!-- HOSTEL LISTINGS -->
-<section id="listings" class="properties">
-  <h2>Hostel Listings</h2>
-  <div id="propertyContainer"></div>
-  <div class="pagination">
-    <button id="prevBtn" onclick="prevPage()">Previous</button>
-    <button id="nextBtn" onclick="nextPage()">Next</button>
-  </div>
-</section>
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <h2>About Us</h2>
+    <p>HostelConnect helps students find safe, affordable, and convenient hostels close to their campuses. We also provide landlords with an easy way to list their properties and reach thousands of students.</p>
+  </section>
 
-<!-- ABOUT US -->
-<section id="about" class="about">
-  <h2>About Us</h2>
-  <p>HostelConnect connects property owners with university students. Students can search, compare, and book verified hostels quickly. Landlords get access to trusted tenants. Our goal is to make student housing safe, easy, and efficient.</p>
-</section>
+  <!-- OPTIONS -->
+  <section id="options" class="options">
+    <div class="option">
+      <h3>Looking for a Hostel?</h3>
+      <p>Browse through verified hostel listings near your school.</p>
+       <a href="#listings" class="btn">Browse Hostels</a>
+    </div>
+    <div class="option">
+      <h3>Need a Roommate?</h3>
+      <p>Find compatible roommates within your budget.</p>
+       <a href="#listings" class="btn">Find Roomate</a>
+    </div>
+    <div class="option">
+      <h3>Are You a Landlord?</h3>
+      <p>List your hostels and connect with students easily.</p>
+       <a href="#listings" class="btn">Connect with US</a>
+    </div>
+  </section>
 
-<!-- OPTIONS -->
-<section id="options" class="options">
-  <div class="option-card">
-    <h3>🎓 Student Looking for Hostel</h3>
-    <p>Browse verified hostels near your campus.</p>
-    <a href="#listings" class="btn">View Hostels</a>
-  </div>
-  <div class="option-card">
-    <h3>👥 Student Looking for Roommate</h3>
-    <p>Find and connect with other students to share a room or apartment.</p>
-    <a href="https://wa.me/2348118104677" class="btn" target="_blank">Find Roommate</a>
-  </div>
-  <div class="option-card">
-    <h3>🏠 Landlord</h3>
-    <p>List your hostels and reach students directly.</p>
-    <a href="https://wa.me/2348118104677" class="btn" target="_blank">List Hostel</a>
-  </div>
-</section>
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <p>Chat with us directly on WhatsApp for more information.</p>
+    <a href="https://wa.me/2348012345678" target="_blank">Chat on WhatsApp</a>
+  </section>
 
-<!-- CONTACT -->
-<section id="contact" class="contact">
-  <h2>Contact Us</h2>
-    <p>Have a hostel or looking for one? Chat with us on WhatsApp!</p>
-  <a href="https://wa.me/2348118104677" class="whatsapp-btn">💬 Chat on WhatsApp</a>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>&copy; 2025 HostelConnect. All rights reserved.</p>
-</footer>
-
-<!-- JS for menu, filtering, pagination -->
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 HostelConnect. All rights reserved.
+  </footer>
 <script>
-// Responsive menu
-document.addEventListener('DOMContentLoaded', () => {
-  const menuToggle = document.querySelector('.menu-toggle');
-  const navMenu = document.querySelector('header nav ul');
-  menuToggle.addEventListener('click', () => { navMenu.classList.toggle('show'); });
-  document.addEventListener('click', (event) => {
-    if (!menuToggle.contains(event.target) && !navMenu.contains(event.target)) {
-      navMenu.classList.remove('show');
+(() => {
+  // Sample data
+  const data = [
+    {id:1,title:"Ensuite by South Gate",city:"Ibadan",area:"Agbowo",type:"Self-contain",price:18000,period:"per month",
+     photos:["ap2.jpeg"], facilities:["Wi-Fi","Water"], contact:"https://wa.me/2348011111111"},
+    {id:2,title:"Student Lodge Block A",city:"Lagos",area:"Yaba",type:"Single room",price:25000,period:"per month",
+     photos:["ap1.jpeg"], facilities:["Shared kitchen","Power backup"], contact:"https://wa.me/2348022222222"},
+    {id:3,title:"2-Bedroom Close to Campus",city:"Ibadan",area:"Bodija",type:"2-bedroom",price:42000,period:"per month",
+     photos:["ap3.jpg"], facilities:["Furnished","Wi-Fi"], contact:"https://wa.me/2348033333333"},
+    {id:4,title:"Shared Room • Female Only",city:"Ile-Ife",area:"Road 7",type:"Shared room",price:12000,period:"per month",
+     photos:["ap4.jpeg"], facilities:["Water","Wi-Fi"], contact:"https://wa.me/2348044444444"},
+    {id:5,title:"Luxury Hostel",city:"Lagos",area:"Unilag",type:"Self-contain",price:50000,period:"per month",
+     photos:["lagoslux.jpg"], facilities:["AC","Furnished"], contact:"https://wa.me/2348055555555"},
+    {id:6,title:"Budget Room",city:"Ibadan",area:"Mokola",type:"Single room",price:10000,period:"per month",
+     photos:["mokola.jpg"], facilities:["Shared kitchen"], contact:"https://wa.me/2348066666666"},
+    {id:7,title:"Female Hostel Block B",city:"Lagos",area:"Yaba",type:"Shared room",price:15000,period:"per month",
+     photos:["yabab.jpg"], facilities:["Water","Security"], contact:"https://wa.me/2348077777777"},
+    {id:8,title:"Two Bedroom Flat",city:"Ile-Ife",area:"Campus Road",type:"2-bedroom",price:38000,period:"per month",
+     photos:["ife2bed.jpg"], facilities:["Wi-Fi","Furnished"], contact:"https://wa.me/2348088888888"},
+    {id:9,title:"Modern Studio",city:"Abuja",area:"Wuse",type:"Self-contain",price:60000,period:"per month",
+     photos:["abuja.jpg"], facilities:["AC","Generator"], contact:"https://wa.me/2348099999999"},
+    {id:10,title:"Affordable Hostel",city:"Ibadan",area:"UI",type:"Shared room",price:8000,period:"per month",
+     photos:["uihostel.jpg"], facilities:["Water","Electricity"], contact:"https://wa.me/2348000000000"}
+  ];
+
+  // DOM
+  const grid = document.getElementById('grid');
+  const city = document.getElementById('city');
+  const area = document.getElementById('area');
+  const minp = document.getElementById('minp');
+  const maxp = document.getElementById('maxp');
+  const type = document.getElementById('type');
+  const sort = document.getElementById('sort');
+  const searchInput = document.getElementById('searchInput');
+
+  const pagination = document.createElement('div');
+  pagination.className = 'pagination';
+  grid.after(pagination);
+
+  let currentPage = 1;
+  const perPage = 8; // show 8 results before pagination
+
+  // populate city options
+  [...new Set(data.map(d=>d.city))].sort().forEach(c=>{
+    const o=document.createElement('option');o.textContent=c;o.value=c;city.appendChild(o);
+  });
+
+  function toNGN(n){return new Intl.NumberFormat('en-NG',{style:'currency',currency:'NGN',maximumFractionDigits:0}).format(n)}
+
+  function render(list){
+    grid.innerHTML = '';
+    const start = (currentPage-1)*perPage;
+    const pageItems = list.slice(start,start+perPage);
+
+    pageItems.forEach(x=>{
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML = `
+        <div class="cover">${x.photos?.[0] ? `<img src="${x.photos[0]}" alt="${x.title}" style="width:100%;height:100%;object-fit:cover;">` : 'Photo'}</div>
+        <div class="body">
+          <div class="price">${toNGN(x.price)} <span class="muted">/${x.period}</span></div>
+          <div class="title">${x.title}</div>
+          <div class="muted">${x.city} • ${x.area} • ${x.type}</div>
+          <div class="tags">${(x.facilities||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+          <div class="actions">
+            <a class="btn" style="text-decoration:none" href="${x.contact}" target="_blank" rel="noopener">Contact</a>
+            <button class="ghost" onclick='alert(${JSON.stringify("Listing: "+x.title)})'>Details</button>
+          </div>
+        </div>`;
+      grid.appendChild(el);
+    });
+
+    renderPagination(list.length);
+  }
+
+  function renderPagination(total){
+    const pages = Math.ceil(total/perPage);
+    pagination.innerHTML = '';
+
+    if(pages > 1){
+      const prevBtn = document.createElement('button');
+      prevBtn.textContent = 'Prev';
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = ()=>{ if(currentPage>1){ currentPage--; apply(); }};
+      pagination.appendChild(prevBtn);
+
+      const info = document.createElement('span');
+      info.textContent = ` Page ${currentPage} of ${pages} `;
+      pagination.appendChild(info);
+
+      const nextBtn = document.createElement('button');
+      nextBtn.textContent = 'Next';
+      nextBtn.disabled = currentPage === pages;
+      nextBtn.onclick = ()=>{ if(currentPage<pages){ currentPage++; apply(); }};
+      pagination.appendChild(nextBtn);
     }
-  });
-});
+  }
 
-// Sample hostel data
-const hostels = [
-  {title:'Modern Co-Living Space', location:'City', city:'Yaba, Lagos', price:350000, img:'ap1.jpg', description:'Trendy co-living setup with shared kitchens and lounges.', whatsapp:'2348118104677'},
-  {title:'Spacious Shared Dormitory', location:'Suburb', city:'Ikorodu, Lagos', price:250000, img:'ap2.jpeg', description:'Affordable living with great community vibe.', whatsapp:'2348118104677'},
-  {title:'Budget-Friendly Quad Room', location:'City', city:'Surulere, Lagos', price:180000, img:'ap3.jpg', description:'Spacious shared accommodations for students.', whatsapp:'2348118104677'},
-  {title:'Cozy 2-Bedroom Apartment', location:'City', city:'Ikeja, Lagos', price:400000, img:'ap4.jpeg', description:'Perfect for students with all modern amenities.', whatsapp:'2348118104677'},
-  {title:'Luxury Studio Apartment', location:'City', city:'Victoria Island, Lagos', price:550000, img:'ap5.jpg', description:'Modern studio apartment for single students.', whatsapp:'2348118104677'},
-  {title:'Affordable Hostel Block', location:'Suburb', city:'Ojodu, Lagos', price:220000, img:'ap6.jpg', description:'Secure hostel with friendly environment.', whatsapp:'2348118104677'},
-  {title:'Quiet Study Hostel', location:'Suburb', city:'Festac Town, Lagos', price:200000, img:'ap7.jpg', description:'Perfect for students who need quiet study areas.', whatsapp:'2348118104677'},
-  {title:'Student Paradise', location:'City', city:'Lagos Island, Lagos', price:450000, img:'ap8.jpg', description:'Fun and social student housing.', whatsapp:'2348118104677'},
-  {title:'Shared Apartment', location:'Suburb', city:'Ajah, Lagos', price:300000, img:'ap9.jpg', description:'Shared apartment with spacious rooms.', whatsapp:'2348118104677'},
-  {title:'Modern Hostel Suite', location:'City', city:'Lekki, Lagos', price:500000, img:'ap10.jpg', description:'Luxury hostel suite with modern amenities.', whatsapp:'2348118104677'}
-];
+  function apply(){
+    let list = data.slice();
+    if(city.value) list = list.filter(x=>x.city===city.value);
+    if(area.value.trim()) list = list.filter(x=>x.area.toLowerCase().includes(area.value.trim().toLowerCase()));
+    const min = +minp.value||0, max = +maxp.value||Infinity;
+    list = list.filter(x=>x.price>=min && x.price<=max);
+    if(type.value) list = list.filter(x=>x.type===type.value);
+    if(searchInput.value.trim()) list = list.filter(x=>
+      x.title.toLowerCase().includes(searchInput.value.trim().toLowerCase()) ||
+      x.area.toLowerCase().includes(searchInput.value.trim().toLowerCase()) ||
+      x.city.toLowerCase().includes(searchInput.value.trim().toLowerCase())
+    );
+    list.sort((a,b)=> sort.value==='asc'? a.price-b.price : b.price-a.price);
+    render(list);
+  }
 
-let currentPage = 1;
-const itemsPerPage = 5;
+  [city,area,minp,maxp,type,sort,searchInput].forEach(el=>el.addEventListener('input', ()=>{currentPage=1;apply();}));
+  window.applyFilters = ()=>{currentPage=1;apply();};
 
-function displayHostels() {
-  const container = document.getElementById('propertyContainer');
-  container.innerHTML = '';
-  
-  const searchInput = document.getElementById('searchInput').value.toLowerCase();
-  const locationFilter = document.getElementById('locationFilter').value;
-  const priceFilter = document.getElementById('priceFilter').value;
-
-  let filtered = hostels.filter(h => {
-    return (h.city.toLowerCase().includes(searchInput)) &&
-           (locationFilter === 'all' || h.location === locationFilter);
-  });
-
-  // Sort by price
-  if (priceFilter === 'low-high') filtered.sort((a,b) => a.price-b.price);
-  else filtered.sort((a,b) => b.price-a.price);
-
-  const totalPages = Math.ceil(filtered.length / itemsPerPage);
-  const start = (currentPage-1)*itemsPerPage;
-  const end = start + itemsPerPage;
-  const pageItems = filtered.slice(start, end);
-
-  pageItems.forEach(h => {
-    const card = document.createElement('div');
-    card.className = 'property-card';
-    card.innerHTML = `
-      <div class="property-image">
-        <a href="#">
-          <img src="${h.img}" alt="${h.title}">
-          <span class="listing-badge">Listing</span>
-        </a>
-      </div>
-      <div class="property-details">
-        <h3><a href="#">${h.title}</a></h3>
-        <p class="location">📍 ${h.city}</p>
-        <p class="description">${h.description}</p>
-        <p class="price">₦${h.price.toLocaleString()}</p>
-        <a href="https://wa.me/${h.whatsapp}" class="whatsapp-btn" target="_blank">Chat on WhatsApp</a>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-
-  document.getElementById('prevBtn').disabled = currentPage === 1;
-  document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages===0;
-}
-
-function applyFilters() { currentPage=1; displayHostels(); }
-function nextPage() { currentPage++; displayHostels(); }
-function prevPage() { currentPage--; displayHostels(); }
-
-window.onload = displayHostels;
+  apply(); // init
+})();
 </script>
-
-</body>
-</html>
-
