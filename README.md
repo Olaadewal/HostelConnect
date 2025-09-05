@@ -10,8 +10,15 @@ ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa
 ```
 
 ### copy and paste it your public ssh key to github
+```bash
 cat ~/.ssh/id_rsa.pub
+```
 
+### Clone the repostiroy
+
+```bash
+git clone git@github.com:Olaadewal/HostelConnect.git
+```
 
 
 
